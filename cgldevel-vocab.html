@@ -1,0 +1,72 @@
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../paper-button/paper-button.html">
+<link rel="import" href="../paper-dialog/paper-dialog.html">
+<link rel="import" href="../paper-dialog-scrollable/paper-dialog-scrollable.html">
+<link rel="import" href="../paper-icon-button/paper-icon-button.html">
+<link rel="import" href="cgldevel-dialog.html">
+
+
+
+<!--
+`cgldevel-vocab`
+A webcomponent for highlighting important vocabulary terms.
+
+@demo demo/index.html
+-->
+
+<dom-module id="cgldevel-vocab">
+  <template>
+    <style>
+      :host {
+        display: inline-flex;
+      }
+
+      paper-button {
+        text-transform: none;
+        padding: 0;
+        border-bottom: 1px dashed gray;
+        position: relative;
+        top: 3px;
+      }
+    </style>
+
+    <cgldevel-dialog opened="{{opened}}">
+      <slot></slot>
+    </cgldevel-dialog>
+
+    <div class="word">
+      <paper-button id="word_btn" noink>[[word]]</paper-button>
+    </div>
+
+
+  </template>
+
+  <script>
+    Polymer({
+
+      is: 'cgldevel-vocab',
+
+      properties: {
+        word: {
+          type: String,
+          value: '',
+          reflectToAttribute: true,
+        },
+
+        opened: {
+          type: Boolean,
+          value: false,
+        }
+      },
+
+      ready: function () {
+        this.$$("#word_btn").addEventListener("click", (e) => {
+          this.opened = !this.opened
+        });
+      },
+
+
+    });
+
+  </script>
+</dom-module>
