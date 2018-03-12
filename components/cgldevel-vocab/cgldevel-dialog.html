@@ -1,0 +1,56 @@
+<link rel="import" href="../paper-dialog/paper-dialog.html">
+<link rel="import" href="../paper-dialog-scrollable/paper-dialog-scrollable.html">
+<link rel="import" href="../paper-icon-button/paper-icon-button.html">
+
+<dom-module id="cgldevel-dialog">
+    <template>
+        <style>
+            :host {
+                display: block;
+                position: relative;
+            }
+
+            paper-dialog {
+                display: block;
+                margin: auto apply(--paper-dialog);
+                width: 80%;
+                height: auto;
+            }
+
+            .close_button {
+                display: flex;
+                flex-direction: row-reverse;
+                margin-top: 0;
+                background-color: #20427b;
+                color: #fff;
+                padding: 8px;
+            }
+        </style>
+
+
+        <paper-dialog id="dialog" with-backdrop opened="{{opened}}">
+            <div class="close_button">
+                <paper-icon-button icon="cancel" dialog-dismiss></paper-icon-button>
+            </div>
+
+            <paper-dialog-scrollable>
+               <slot></slot> 
+            </paper-dialog-scrollable>
+        </paper-dialog>
+
+
+    </template>
+    <script>
+        Polymer({
+            is: 'cgldevel-dialog',
+            properties: {
+                opened: {
+                    type: Boolean,
+                    value: false,
+                    notify: true
+                },
+            },
+
+        });
+    </script>
+</dom-module>
