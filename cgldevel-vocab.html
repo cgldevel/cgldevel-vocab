@@ -1,7 +1,8 @@
 <link rel="import" href="../polymer/polymer.html">
 <link rel="import" href="../paper-button/paper-button.html">
-
-
+<link rel="import" href="../paper-button/paper-button.html">
+<link rel="import" href="../hax-body-behaviors/hax-body-behaviors.html">
+<link rel="import" href="../schema-behaviors/schema-behaviors.html">
 <link rel="import" href="cgldevel-dialog.html">
 
 
@@ -35,7 +36,7 @@ A webcomponent for highlighting important vocabulary terms.
     </cgldevel-dialog>
 
     <div class="word">
-      <paper-button id="word_btn" noink>[[word]]</paper-button>
+      <paper-button id="wordbtn" noink>[[word]]</paper-button>
     </div>
 
 
@@ -45,7 +46,10 @@ A webcomponent for highlighting important vocabulary terms.
     Polymer({
 
       is: 'cgldevel-vocab',
-
+      behaviors: [
+        HAXBehaviors.PropertiesBehaviors,
+        SchemaBehaviors.Schema,
+      ],
       properties: {
         word: {
           type: String,
@@ -60,11 +64,68 @@ A webcomponent for highlighting important vocabulary terms.
       },
 
       ready: function () {
-        this.$$("#word_btn").addEventListener("click", (e) => {
+        this.$.wordbtn.addEventListener("click", (e) => {
           this.opened = !this.opened
         });
       },
-
+      /**
+       * Attached.
+       */
+      attached: function() {
+        // Establish hax properties if they exist
+        let props = {
+          'canScale': false,
+          'canPosition': false,
+          'canEditSource': true,
+          'gizmo': {
+            'title': 'Vocab',
+            'description': 'Vocabulary word',
+            'icon': 'image:details',
+            'color': 'red',
+            'groups': ['Vocab'],
+            'handles': [
+              {
+                'type': 'inline',
+                'text': 'word',
+              }
+            ],
+            'meta': {
+              'author': 'LRNWebComponents'
+            }
+          },
+          'settings': {
+            'quick': [
+              {
+                'property': 'word',
+                'title': 'Word',
+                'description': 'The word to make clickable for more detail.',
+                'inputMethod': 'textfield',
+                'icon': 'editor:title',
+                'required': true,
+              },
+            ],
+            'configure': [
+              {
+                'property': 'word',
+                'title': 'Word',
+                'description': 'The word to make clickable for more detail.',
+                'inputMethod': 'textfield',
+                'icon': 'editor:title',
+                'required': true,
+              },
+              {
+                'slot': '',
+                'title': 'Contents',
+                'description': 'Contents to display in the pop up.',
+                'inputMethod': 'code-editor',
+                'required': true,
+              },
+            ],
+            'advanced': []
+          }
+        };
+        this.setHaxProperties(props);
+      },
 
     });
 
